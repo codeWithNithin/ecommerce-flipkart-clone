@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TopDealsCard from "../../components/TopDealsCard/TopDealsCard";
-import './Home.css';
+import "./Home.css";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
