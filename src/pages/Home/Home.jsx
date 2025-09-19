@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TopDealsCard from "../../components/TopDealsCard/TopDealsCard";
 import "./Home.css";
-import ProductList from "../product-list/ProductList";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [isCardView, setIsCardView] = useState(false);
-  const [category, setCategory] = useState("");
-
-  const productListData = {
-    products,
-    category: "",
-  };
 
   useEffect(() => {
     getAllProducts();
   }, []);
-
-  function onCardClick(data) {
-    console.log("data", data);
-    productListData.products = data.products;
-    productListData.category = data.category;
-    setCategory(productListData.category);
-    console.log("productListData", productListData);
-    setIsCardView(true);
-  }
 
   function getAllProducts() {
     fetch("https://dummyjson.com/products")
@@ -56,7 +39,6 @@ const Home = () => {
         const result = Object.entries(data).map(([key, value]) => {
           return {
             category: key,
-            products: value.products,
             img: value.products[0].thumbnail,
             id: value.products[0].id,
             price: value.products[0].price,
@@ -71,22 +53,16 @@ const Home = () => {
 
   return (
     <div>
-      <h4> {isCardView ? "Product List" : "Top Deals"} </h4>
-
+      <h4> Top Deals </h4>
       <div className="product-list">
-        {!isCardView &&
-          products.map((ele) => (
-            <TopDealsCard
-              key={ele.id}
-              category={ele.category}
-              img={ele.img}
-              products={ele.products}
-              price={ele.price}
-              cardHandler={onCardClick}
-            />
-          ))}
-
-        {isCardView && <ProductList category={category} />}
+        {products.map((ele) => (
+          <TopDealsCard
+            key={ele.id}
+            category={ele.category}
+            img={ele.img}
+            price={ele.price}
+          />
+        ))}
       </div>
     </div>
   );

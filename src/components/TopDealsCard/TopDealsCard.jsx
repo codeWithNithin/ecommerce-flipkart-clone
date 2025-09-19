@@ -1,11 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import "./TopDealsCard.css";
-const TopDealsCard = ({ products, category, img, price, cardHandler }) => {
+const TopDealsCard = ({ category, img, price }) => {
+  const navigate = useNavigate();
 
   function onCardClick() {
-    // window.location.href =
-    //   "https://dummyjson.com/products/category/smartphones";
-    // get the category and pass it to particular category api
-    cardHandler?.({products, category});
+    navigate(`/product-list/${category}`);
   }
 
   return (
