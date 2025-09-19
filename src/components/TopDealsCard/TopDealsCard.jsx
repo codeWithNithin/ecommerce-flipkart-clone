@@ -1,16 +1,15 @@
 import "./TopDealsCard.css";
-const TopDealsCard = ({ products, category, img, price }) => {
+const TopDealsCard = ({ products, category, img, price, cardHandler }) => {
+
   function onCardClick() {
-    const card = document.getElementById("card");
-    const anchorTag = document.createElement("a");
-
-    anchorTag.href = "./pages/product-list/ProductList.jsx";
-
-    card.appendChild(anchorTag);
+    // window.location.href =
+    //   "https://dummyjson.com/products/category/smartphones";
+    // get the category and pass it to particular category api
+    cardHandler?.({products, category});
   }
 
   return (
-    <div className="top-deals-card" id="card" onClick={onCardClick}>
+    <div className="top-deals-card" onClick={onCardClick}>
       <img src={img} alt="prod img" className="top-deals-card-img" />
       <div className="category">{category} </div>
       <div className="price">{price}</div>
