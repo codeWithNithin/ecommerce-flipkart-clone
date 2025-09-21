@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TopDealsCard from "../../components/TopDealsCard/TopDealsCard";
 import "./Home.css";
+import Header from "../../components/Header/Header";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -53,6 +54,7 @@ const Home = () => {
 
   return (
     <div>
+      <Header />
       <h4> Top Deals </h4>
       <div className="product-list">
         {products.map((ele) => (

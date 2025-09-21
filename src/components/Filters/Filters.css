@@ -1,0 +1,40 @@
+/* Filters */
+aside.filters {
+    background: linear-gradient(180deg, var(--glass), transparent);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    height: fit-content
+}
+
+.filters h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px
+}
+
+.filter-group {
+    margin-bottom: 14px
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0
+}
+
+.range {
+    display: flex;
+    gap: 8px;
+    align-items: center
+}
+
+.chip {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #eef2ff;
+    font-size: 13px;
+    margin-right: 6px
+}

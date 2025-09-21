@@ -1,0 +1,24 @@
+/* Breadcrumb / heading */
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 14px 0
+}
+
+.breadcrumbs {
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600
+}
+
+/* Layout: filters + results */
+.content {
+    display: grid;
+    grid-template-columns: var(--filter-width) 1fr;
+    gap: var(--gap)
+}
