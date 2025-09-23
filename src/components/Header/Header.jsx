@@ -1,9 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const onLogoClick = () => {
+    navigate("/");
+  };
+
   return (
     <header className="top">
-      <div className="logo">
+      <div className="logo" onClick={onLogoClick}>
         <div className="mark">F</div>
         <div className="text">
           <strong>FlipMock</strong>
