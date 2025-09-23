@@ -41,11 +41,6 @@ const ProductList = () => {
               <div>
                 <div className="breadcrumbs">Home / {category} </div>
                 <div className="page-title"> {category} </div>
-                <div className="results-meta">
-                  Showing 1–24 of 2,134 results — Filters:{" "}
-                  <span className="chip">Acer</span>
-                  <span className="chip">Flipkart Assured</span>
-                </div>
               </div>
               <div className="sort">
                 <label style={{ fontSize: "13px", color: "var(--muted)" }}>
