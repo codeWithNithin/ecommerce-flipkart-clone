@@ -1,6 +1,12 @@
 import "./Filters.css";
 
-function Filters() {
+function Filters({ setRating }) {
+
+  const onRatingChange = (e) => {
+    console.log(e.target.value);
+    setRating(e.target.value);
+  }
+
   return (
     <aside className="filters">
       <h4>Filters</h4>
@@ -85,15 +91,30 @@ function Filters() {
       <div className="filter-group">
         <h4>Customer Ratings</h4>
         <div className="checkbox">
-          <input type="checkbox" id="4plus" />
+          <input
+            type="checkbox"
+            id="4plus"
+            onChange={onRatingChange}
+            value="4"
+          />
           <label htmlFor="4plus">4★ & above</label>
         </div>
         <div className="checkbox">
-          <input type="checkbox" id="3plus" />
+          <input
+            type="checkbox"
+            id="3plus"
+            onChange={onRatingChange}
+            value="3"
+          />
           <label htmlFor="3plus">3★ & above</label>
         </div>
         <div className="checkbox">
-          <input type="checkbox" id="2plus" />
+          <input
+            type="checkbox"
+            id="2plus"
+            onChange={onRatingChange}
+            value="2"
+          />
           <label htmlFor="2plus">2★ & above</label>
         </div>
       </div>

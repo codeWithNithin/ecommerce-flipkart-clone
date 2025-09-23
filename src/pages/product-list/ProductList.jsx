@@ -8,10 +8,12 @@ import Filters from "../../components/Filters/Filters";
 const ProductList = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
+  const [sortBy, setSortBy] = useState("asc");
+  const [rating, setRating] = useState(4);
 
   useEffect(() => {
     function fetchProductsByCategory() {
-      fetch(`https://dummyjson.com/products/category/${category}`)
+      fetch(`https://dummyjson.com/products/category/${category}?sortBy=price&order=${sortBy}`)
         .then((res) => res.json())
         .then((resp) => {
           console.log("resp", resp);
@@ -20,7 +22,12 @@ const ProductList = () => {
     }
 
     fetchProductsByCategory();
-  }, [category]);
+  }, [category, sortBy]);
+
+
+  const onSortChange = (e) => {
+    setSortBy(e.target.value);
+  };
 
   return (
     <>
@@ -28,12 +35,12 @@ const ProductList = () => {
 
       <div className="">
         <div className="content">
-          <Filters />
+          <Filters setRating={setRating}/>
           <main>
             <div className="heading">
               <div>
-                <div className="breadcrumbs">Home / Computers / Monitors</div>
-                <div className="page-title">Monitors</div>
+                <div className="breadcrumbs">Home / {category} </div>
+                <div className="page-title"> {category} </div>
                 <div className="results-meta">
                   Showing 1–24 of 2,134 results — Filters:{" "}
                   <span className="chip">Acer</span>
@@ -44,11 +51,14 @@ const ProductList = () => {
                 <label style={{ fontSize: "13px", color: "var(--muted)" }}>
                   Sort by
                 </label>
-                <select className="select">
-                  <option>Relevance</option>
-                  <option>Price — Low to High</option>
-                  <option>Price — High to Low</option>
-                  <option>Newest First</option>
+                <select
+                  className="select"
+                  onChange={onSortChange}
+                  value={sortBy}
+                >
+                  <option value="asc">Price — Low to High</option>
+                  <option value="desc">Price — High to Low</option>
+                  {/* <option>Newest First</option> */}
                 </select>
               </div>
             </div>
