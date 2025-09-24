@@ -1,6 +1,21 @@
-import './BrandFilter.css';
+import "./BrandFilter.css";
 
-const BrandFilter = () => {
+const BrandFilter = ({ brands, setBrandsFilter, brandsFilter }) => {
+  const onClick = (e) => {
+    console.log(e.target);
+    if (e.target.checked) {
+      setBrandsFilter((prev) => [...prev, e.target.value]);
+    } else {
+      setBrandsFilter((prev) =>
+        prev.filter((brand) => brand !== e.target.value)
+      );
+    }
+
+
+    console.log("brandsFilter", brandsFilter);
+    // setBrandsFilter((prev) => [...prev]);
+  };
+
   return (
     <>
       <div
@@ -14,18 +29,13 @@ const BrandFilter = () => {
         <strong>Brand</strong>
         <small className="muted">Clear</small>
       </div>
-      <div className="checkbox">
-        <input type="checkbox" id="acer" />
-        <label htmlFor="acer">Acer</label>
-      </div>
-      <div className="checkbox">
-        <input type="checkbox" id="lg" />
-        <label htmlFor="lg">LG</label>
-      </div>
-      <div className="checkbox">
-        <input type="checkbox" id="samsung" />
-        <label htmlFor="samsung">Samsung</label>
-      </div>
+
+      {brands.map((ele) => (
+        <div className="checkbox" key={ele}>
+          <input type="checkbox" id={ele} onChange={onClick} value={ele} />
+          <label htmlFor={ele}>{ele}</label>
+        </div>
+      ))}
     </>
   );
 };

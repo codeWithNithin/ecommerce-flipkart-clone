@@ -8,22 +8,61 @@ import Filters from "../../components/Filters/Filters";
 const ProductList = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortBy, setSortBy] = useState("asc");
-  const [rating, setRating] = useState(4);
+  const [rating, setRating] = useState();
+  const [brandsFilter, setBrandsFilter] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const brands = [];
+
+  if (products.length > 0) {
+    products.forEach((product) => {
+      if (!brands.includes(product.brand)) {
+        brands.push(product.brand);
+      }
+    });
+  }
 
   useEffect(() => {
     function fetchProductsByCategory() {
-      fetch(`https://dummyjson.com/products/category/${category}?sortBy=price&order=${sortBy}`)
+      fetch(
+        `https://dummyjson.com/products/category/${category}?sortBy=price&order=${sortBy}`
+      )
         .then((res) => res.json())
         .then((resp) => {
-          console.log("resp", resp);
           setProducts(resp.products);
+          setFilteredProducts(resp.products);
         });
     }
 
     fetchProductsByCategory();
   }, [category, sortBy]);
 
+  useEffect(() => {
+    const tempProducts = products;
+
+    if (brandsFilter.length > 0) {
+      const result = tempProducts.filter((ele) => {
+        if (brandsFilter.includes(ele.brand)) {
+          return ele;
+        }
+      });
+
+      setFilteredProducts(result);
+    } else if (search) {
+      const result = tempProducts.filter((ele) => {
+        if (ele.title.toLowerCase().includes(search.toLowerCase())) {
+          return ele;
+        }
+      });
+      setFilteredProducts(result);
+    } else {
+      setFilteredProducts(tempProducts);
+    }
+  }, [products, brandsFilter, search]);
+
+  console.log(filteredProducts);
 
   const onSortChange = (e) => {
     setSortBy(e.target.value);
@@ -31,11 +70,16 @@ const ProductList = () => {
 
   return (
     <>
-      <Header />
+      <Header setSearch={setSearch} search={search} />
 
       <div className="">
         <div className="content">
-          <Filters setRating={setRating}/>
+          <Filters
+            setRating={setRating}
+            brands={brands}
+            setBrandsFilter={setBrandsFilter}
+            brandsFilter={brandsFilter}
+          />
           <main>
             <div className="heading">
               <div>
@@ -59,7 +103,7 @@ const ProductList = () => {
             </div>
             <h4> Product List </h4>
             <div className="product-list">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   title={product.title}
