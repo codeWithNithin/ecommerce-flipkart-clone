@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
-function Header() {
+function Header({ setSearch, search }) {
   const navigate = useNavigate();
 
   const onLogoClick = () => {
     navigate("/");
+  };
+
+  const onSeachBtnClick = () => {
+    setSearch(search);
   };
 
   return (
@@ -17,8 +21,11 @@ function Header() {
         </div>
       </div>
       <div className="search">
-        <input placeholder="Search for monitors, brands, resolutions, sizes..." />
-        <button>Search</button>
+        <input
+          placeholder="Search for monitors, brands, resolutions, sizes..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button onClick={onSeachBtnClick}>Search</button>
       </div>
       <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
         <button className="page-btn">Cart</button>
