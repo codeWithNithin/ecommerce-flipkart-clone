@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
+import { useState } from "react";
 
-function Header({ setSearch, search }) {
+function Header({ onSearch }) {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   const onLogoClick = () => {
     navigate("/");
@@ -10,6 +12,7 @@ function Header({ setSearch, search }) {
 
   const onSeachBtnClick = () => {
     setSearch(search);
+    onSearch?.(search);
   };
 
   return (
@@ -24,6 +27,7 @@ function Header({ setSearch, search }) {
         <input
           placeholder="Search for monitors, brands, resolutions, sizes..."
           onChange={(e) => setSearch(e.target.value)}
+          value={search}
         />
         <button onClick={onSeachBtnClick}>Search</button>
       </div>

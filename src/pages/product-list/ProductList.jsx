@@ -9,10 +9,8 @@ const ProductList = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [sortBy, setSortBy] = useState("asc");
-  const [rating, setRating] = useState();
-  const [brandsFilter, setBrandsFilter] = useState([]);
-  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("price");
+  const [orderBy, setOrderBy] = useState("asc");
 
   const brands = [];
 
@@ -24,10 +22,13 @@ const ProductList = () => {
     });
   }
 
+  console.log("sortBy", sortBy);
+  console.log("orderBy", orderBy);
+
   useEffect(() => {
     function fetchProductsByCategory() {
       fetch(
-        `https://dummyjson.com/products/category/${category}?sortBy=price&order=${sortBy}`
+        `https://dummyjson.com/products/category/${category}?sortBy=${sortBy}&order=${orderBy}`
       )
         .then((res) => res.json())
         .then((resp) => {
@@ -37,48 +38,58 @@ const ProductList = () => {
     }
 
     fetchProductsByCategory();
-  }, [category, sortBy]);
+  }, [category, sortBy, orderBy]);
 
-  useEffect(() => {
+  function applyFilter(cb) {
+    const tempProducts = products;
+    const result = tempProducts.filter(cb);
+    setFilteredProducts(result);
+  }
+  // on search functionality
+  function onSearch(text) {
+    applyFilter((ele) => ele.title.toLowerCase().includes(text.toLowerCase()));
+  }
+
+  // filtering with brand
+  function onBrandFilterChange(brandsFilter) {
     const tempProducts = products;
 
-    if (brandsFilter.length > 0) {
-      const result = tempProducts.filter((ele) => {
-        if (brandsFilter.includes(ele.brand)) {
-          return ele;
-        }
-      });
-
-      setFilteredProducts(result);
-    } else if (search) {
-      const result = tempProducts.filter((ele) => {
-        if (ele.title.toLowerCase().includes(search.toLowerCase())) {
-          return ele;
-        }
-      });
-      setFilteredProducts(result);
-    } else {
+    if (!brandsFilter || brandsFilter.length === 0) {
       setFilteredProducts(tempProducts);
+      return;
     }
-  }, [products, brandsFilter, search]);
 
-  console.log(filteredProducts);
+    applyFilter((ele) => brandsFilter.includes(ele.brand));
+  }
+
+  // filtering with rating
+  function onRatingFilterChange(ratingsFilter) {
+    const tempProducts = products;
+
+    if (!ratingsFilter || ratingsFilter.length === 0) {
+      setFilteredProducts(tempProducts);
+      return;
+    }
+
+    applyFilter((ele) => ratingsFilter.includes(Math.floor(ele.rating)));
+  }
 
   const onSortChange = (e) => {
-    setSortBy(e.target.value);
+    const arr = e.target.value.split("-");
+    setSortBy(arr[0]);
+    setOrderBy(arr[1]);
   };
 
   return (
     <>
-      <Header setSearch={setSearch} search={search} />
+      <Header onSearch={onSearch} />
 
-      <div className="">
+      <div>
         <div className="content">
           <Filters
-            setRating={setRating}
             brands={brands}
-            setBrandsFilter={setBrandsFilter}
-            brandsFilter={brandsFilter}
+            brandsFilterHandler={onBrandFilterChange}
+            onRatingFilterChange={onRatingFilterChange}
           />
           <main>
             <div className="heading">
@@ -93,11 +104,12 @@ const ProductList = () => {
                 <select
                   className="select"
                   onChange={onSortChange}
-                  value={sortBy}
+                  value={`${sortBy}-${orderBy}`}
                 >
-                  <option value="asc">Price — Low to High</option>
-                  <option value="desc">Price — High to Low</option>
-                  {/* <option>Newest First</option> */}
+                  <option value="price-asc">Price — Low to High</option>
+                  <option value="price-desc">Price — High to Low</option>
+                  <option value="rating-asc">Rating — Low to High</option>
+                  <option value="rating-desc">Rating — High to Low</option>
                 </select>
               </div>
             </div>

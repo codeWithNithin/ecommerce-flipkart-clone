@@ -1,19 +1,23 @@
+import { useState } from "react";
 import "./BrandFilter.css";
 
-const BrandFilter = ({ brands, setBrandsFilter, brandsFilter }) => {
+const BrandFilter = ({ brands, onBrandFilterChange }) => {
+  const [brandsFilter, setBrandsFilter] = useState([]);
+
   const onClick = (e) => {
-    console.log(e.target);
+    console.log(e.target.checked);
+    console.log(e.target.value);
+
+    let result;
+
     if (e.target.checked) {
-      setBrandsFilter((prev) => [...prev, e.target.value]);
+      result = [...brandsFilter, e.target.value];
     } else {
-      setBrandsFilter((prev) =>
-        prev.filter((brand) => brand !== e.target.value)
-      );
+      result = brandsFilter.filter((brand) => brand !== e.target.value);
     }
 
-
-    console.log("brandsFilter", brandsFilter);
-    // setBrandsFilter((prev) => [...prev]);
+    setBrandsFilter(result);
+    onBrandFilterChange?.(result);
   };
 
   return (

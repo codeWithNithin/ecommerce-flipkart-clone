@@ -15,7 +15,6 @@ const Home = () => {
       .then((res) => res.json())
       .then((resp) => {
         const productsList = resp?.products;
-        console.log("products", productsList);
         const data = {};
 
         productsList.forEach((product) => {
