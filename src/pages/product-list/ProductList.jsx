@@ -22,14 +22,9 @@ const ProductList = () => {
     });
   }
 
-  console.log("sortBy", sortBy);
-  console.log("orderBy", orderBy);
-
   useEffect(() => {
     function fetchProductsByCategory() {
-      fetch(
-        `https://dummyjson.com/products/category/${category}?sortBy=${sortBy}&order=${orderBy}`
-      )
+      fetch(`https://dummyjson.com/products/category/${category}`)
         .then((res) => res.json())
         .then((resp) => {
           setProducts(resp.products);
@@ -38,7 +33,7 @@ const ProductList = () => {
     }
 
     fetchProductsByCategory();
-  }, [category, sortBy, orderBy]);
+  }, [category]);
 
   function applyFilter(cb) {
     const tempProducts = products;
@@ -78,6 +73,20 @@ const ProductList = () => {
     const arr = e.target.value.split("-");
     setSortBy(arr[0]);
     setOrderBy(arr[1]);
+
+    let sorted;
+    if (arr[1] === "asc") {
+      sorted = [...filteredProducts].sort(
+        (a, b) => Number(a[sortBy]) - Number(b[sortBy])
+      );
+    } else {
+      sorted = [...filteredProducts].sort(
+        (a, b) => Number(b[sortBy]) - Number(a[sortBy])
+      );
+    }
+
+    console.log("sorted", sorted);
+    setFilteredProducts(sorted);
   };
 
   return (
