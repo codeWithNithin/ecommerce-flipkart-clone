@@ -4,16 +4,20 @@ import "./Home.css";
 import Header from "../../components/Header/Header";
 
 const Home = () => {
+  const [isLoading, setIsLoading] = useState([]);
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     getAllProducts();
   }, []);
 
   function getAllProducts() {
+    setIsLoading(true);
     fetch("https://dummyjson.com/products")
       .then((res) => res.json())
       .then((resp) => {
+        setIsLoading(false);
         const productsList = resp?.products;
         const data = {};
 
@@ -46,17 +50,28 @@ const Home = () => {
         });
 
         setProducts(result);
+        setFilteredProducts(result);
       });
   }
 
-  if (!products.length) return <div>Loading</div>;
+  const searchHandler = (searchText) => {
+    console.log(searchText);
+    console.log(products)
+    const result = products.filter((product) =>
+      product.category.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    setFilteredProducts(result);
+  };
+
+  if (isLoading) return <div>Loading</div>;
 
   return (
     <div>
-      <Header />
+      <Header onSearch={searchHandler} />
       <h4> Top Deals </h4>
       <div className="product-list">
-        {products.map((ele) => (
+        {filteredProducts.map((ele) => (
           <TopDealsCard
             key={ele.id}
             category={ele.category}

@@ -34,12 +34,16 @@ const BrandFilter = ({ brands, onBrandFilterChange }) => {
         <small className="muted">Clear</small>
       </div>
 
-      {brands.map((ele) => (
-        <div className="checkbox" key={ele}>
-          <input type="checkbox" id={ele} onChange={onClick} value={ele} />
-          <label htmlFor={ele}>{ele}</label>
-        </div>
-      ))}
+      {brands.length === 0 ? (
+        <div> No Brands found </div>
+      ) : (
+        brands.map((ele) => (
+          <div className="checkbox" key={ele}>
+            <input type="checkbox" id={ele} onChange={onClick} value={ele} />
+            <label htmlFor={ele}>{ele}</label>
+          </div>
+        ))
+      )}
     </>
   );
 };

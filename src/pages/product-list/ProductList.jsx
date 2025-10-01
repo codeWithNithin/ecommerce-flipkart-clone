@@ -16,11 +16,13 @@ const ProductList = () => {
 
   if (products.length > 0) {
     products.forEach((product) => {
-      if (!brands.includes(product.brand)) {
+      if (product.brand && !brands.includes(product.brand)) {
         brands.push(product.brand);
       }
     });
   }
+
+  console.log(brands);
 
   useEffect(() => {
     function fetchProductsByCategory() {
@@ -41,7 +43,7 @@ const ProductList = () => {
     setFilteredProducts(result);
   }
   // on search functionality
-  function onSearch(text) {
+  function onSearchHandler(text) {
     applyFilter((ele) => ele.title.toLowerCase().includes(text.toLowerCase()));
   }
 
@@ -76,8 +78,6 @@ const ProductList = () => {
 
     const res = mergeSort(products);
 
-    console.log("res", res);
-
     // we have asc and desc
     setFilteredProducts(res);
   };
@@ -95,9 +95,6 @@ const ProductList = () => {
     // 2. Conquer: Recursively sort both halves
     const sortedLeft = mergeSort(left);
     const sortedRight = mergeSort(right);
-
-    console.log("sortedLeft", sortedLeft);
-    console.log("sortedRight", sortedRight);
 
     // 3. Combine: Merge sorted halves
     return merge(sortedLeft, sortedRight);
@@ -137,7 +134,7 @@ const ProductList = () => {
 
   return (
     <>
-      <Header onSearch={onSearch} />
+      <Header onSearch={onSearchHandler} />
 
       <div>
         <div className="content">
