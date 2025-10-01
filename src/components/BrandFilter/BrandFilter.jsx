@@ -5,9 +5,6 @@ const BrandFilter = ({ brands, onBrandFilterChange }) => {
   const [brandsFilter, setBrandsFilter] = useState([]);
 
   const onClick = (e) => {
-    console.log(e.target.checked);
-    console.log(e.target.value);
-
     let result;
 
     if (e.target.checked) {
@@ -17,7 +14,7 @@ const BrandFilter = ({ brands, onBrandFilterChange }) => {
     }
 
     setBrandsFilter(result);
-    onBrandFilterChange?.(result);
+    onBrandFilterChange?.({ result, filter: "brand" });
   };
 
   return (

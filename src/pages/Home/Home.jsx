@@ -1,62 +1,19 @@
-import { useEffect, useState } from "react";
 import TopDealsCard from "../../components/TopDealsCard/TopDealsCard";
 import "./Home.css";
 import Header from "../../components/Header/Header";
+import useProducts from "../../hooks/useProducts";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
-  function getAllProducts() {
-    setIsLoading(true);
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((resp) => {
-        setIsLoading(false);
-        const productsList = resp?.products;
-        const data = {};
-
-        productsList.forEach((product) => {
-          if (!data[product.category])
-            data[product.category] = { products: [] };
-
-          data[product.category].products.push({
-            id: product.id,
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            discountPercentage: product.discountPercentage,
-            rating: product.rating,
-            stock: product.stock,
-            brand: product.brand,
-            category: product.category,
-            thumbnail: product.thumbnail,
-            images: product.images,
-          });
-        });
-
-        const result = Object.entries(data).map(([key, value]) => {
-          return {
-            category: key,
-            img: value.products[0].thumbnail,
-            id: value.products[0].id,
-            price: value.products[0].price,
-          };
-        });
-
-        setProducts(result);
-        setFilteredProducts(result);
-      });
-  }
+  const {
+    isLoading,
+    isError,
+    errorMsg,
+    products,
+    filteredProducts,
+    setFilteredProducts,
+  } = useProducts();
 
   const searchHandler = (searchText) => {
-    console.log(searchText);
-    console.log(products)
     const result = products.filter((product) =>
       product.category.toLowerCase().includes(searchText.toLowerCase())
     );
@@ -65,6 +22,8 @@ const Home = () => {
   };
 
   if (isLoading) return <div>Loading</div>;
+
+  if (isError) return <div>{errorMsg}</div>;
 
   return (
     <div>

@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./ProductList.css";
 import Filters from "../../components/Filters/Filters";
+import useProductsByCategory from "../../hooks/useProductsByCategory";
 
 const ProductList = () => {
   const { category } = useParams();
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortBy, setSortBy] = useState("price");
   const [orderBy, setOrderBy] = useState("asc");
 
   const brands = [];
+
+  const {
+    isLoading,
+    errorMsg,
+    isError,
+    products,
+    filteredProducts,
+    setFilteredProducts,
+  } = useProductsByCategory(category);
 
   if (products.length > 0) {
     products.forEach((product) => {
@@ -21,21 +29,6 @@ const ProductList = () => {
       }
     });
   }
-
-  console.log(brands);
-
-  useEffect(() => {
-    function fetchProductsByCategory() {
-      fetch(`https://dummyjson.com/products/category/${category}`)
-        .then((res) => res.json())
-        .then((resp) => {
-          setProducts(resp.products);
-          setFilteredProducts(resp.products);
-        });
-    }
-
-    fetchProductsByCategory();
-  }, [category]);
 
   function applyFilter(cb) {
     const tempProducts = products;
@@ -47,28 +40,24 @@ const ProductList = () => {
     applyFilter((ele) => ele.title.toLowerCase().includes(text.toLowerCase()));
   }
 
-  // filtering with brand
-  function onBrandFilterChange(brandsFilter) {
-    const tempProducts = products;
+  // generic filter function
+  function onFilterChange(data) {
+    const { filter, result: arr } = data;
 
-    if (!brandsFilter || brandsFilter.length === 0) {
-      setFilteredProducts(tempProducts);
+    if (!arr || arr.length === 0) {
+      setFilteredProducts(products);
       return;
     }
 
-    applyFilter((ele) => brandsFilter.includes(ele.brand));
-  }
+    let cb;
 
-  // filtering with rating
-  function onRatingFilterChange(ratingsFilter) {
-    const tempProducts = products;
-
-    if (!ratingsFilter || ratingsFilter.length === 0) {
-      setFilteredProducts(tempProducts);
-      return;
+    if (filter == "price") {
+      cb = (ele) => arr.includes(ele.price);
+    } else {
+      cb = (ele) => arr.includes(Math.floor(ele.rating));
     }
 
-    applyFilter((ele) => ratingsFilter.includes(Math.floor(ele.rating)));
+    applyFilter(cb);
   }
 
   const onSortChange = (e) => {
@@ -102,7 +91,6 @@ const ProductList = () => {
 
   // Merge two sorted arrays
   function merge(left, right) {
-    console.log(left, right);
     const result = [];
     let i = 0; // index for left
     let j = 0; // index for right
@@ -132,53 +120,53 @@ const ProductList = () => {
     return result;
   }
 
+  if (isLoading) return <h1>Loading...</h1>;
+  if (isError) return <h1>{errorMsg}</h1>;
+
   return (
     <>
       <Header onSearch={onSearchHandler} />
-
-      <div>
-        <div className="content">
-          <Filters
-            brands={brands}
-            brandsFilterHandler={onBrandFilterChange}
-            onRatingFilterChange={onRatingFilterChange}
-          />
-          <main>
-            <div className="heading">
-              <div>
-                <div className="breadcrumbs">Home / {category} </div>
-                <div className="page-title"> {category} </div>
-              </div>
-              <div className="sort">
-                <label style={{ fontSize: "13px", color: "var(--muted)" }}>
-                  Sort by
-                </label>
-                <select
-                  className="select"
-                  onChange={onSortChange}
-                  value={`${sortBy}-${orderBy}`}
-                >
-                  <option value="price-asc">Price — Low to High</option>
-                  <option value="price-desc">Price — High to Low</option>
-                  <option value="rating-asc">Rating — Low to High</option>
-                  <option value="rating-desc">Rating — High to Low</option>
-                </select>
-              </div>
+      <div className="content">
+        <Filters
+          brands={brands}
+          brandsFilterHandler={onFilterChange}
+          onRatingFilterChange={onFilterChange}
+        />
+        <main>
+          <div className="heading">
+            <div>
+              <div className="breadcrumbs">Home / {category} </div>
+              <div className="page-title"> {category} </div>
             </div>
-            <h4> Product List </h4>
-            <div className="product-list">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  title={product.title}
-                  price={product.price}
-                  img={product.thumbnail}
-                  rating={product.rating}
-                />
-              ))}
+            <div className="sort">
+              <label style={{ fontSize: "13px", color: "var(--muted)" }}>
+                Sort by
+              </label>
+              <select
+                className="select"
+                onChange={onSortChange}
+                value={`${sortBy}-${orderBy}`}
+              >
+                <option value="price-asc">Price — Low to High</option>
+                <option value="price-desc">Price — High to Low</option>
+                <option value="rating-asc">Rating — Low to High</option>
+                <option value="rating-desc">Rating — High to Low</option>
+              </select>
             </div>
-          </main>
-        </div>
+          </div>
+          <h4> Product List </h4>
+          <div className="product-list">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                title={product.title}
+                price={product.price}
+                img={product.thumbnail}
+                rating={product.rating}
+              />
+            ))}
+          </div>
+        </main>
       </div>
     </>
   );

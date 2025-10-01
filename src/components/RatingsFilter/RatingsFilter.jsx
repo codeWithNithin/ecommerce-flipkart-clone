@@ -13,7 +13,7 @@ const RatingsFilter = ({ onRatingFilterChange }) => {
     }
 
     setRatings(result);
-    onRatingFilterChange?.(result);
+    onRatingFilterChange?.({result, filter: "rating"});
   };
 
   return (
