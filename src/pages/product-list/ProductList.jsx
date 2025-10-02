@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import "./ProductList.css";
 import Filters from "../../components/Filters/Filters";
 import useProductsByCategory from "../../hooks/useProductsByCategory";
+import mergeSort from "../../utils/helpers";
 
 const ProductList = () => {
   const { category } = useParams();
@@ -32,7 +33,9 @@ const ProductList = () => {
 
   function applyFilter(cb) {
     const tempProducts = products;
+
     const result = tempProducts.filter(cb);
+    console.log(result);
     setFilteredProducts(result);
   }
   // on search functionality
@@ -44,6 +47,8 @@ const ProductList = () => {
   function onFilterChange(data) {
     const { filter, result: arr } = data;
 
+    console.log("filter", filter);
+
     if (!arr || arr.length === 0) {
       setFilteredProducts(products);
       return;
@@ -51,8 +56,8 @@ const ProductList = () => {
 
     let cb;
 
-    if (filter == "price") {
-      cb = (ele) => arr.includes(ele.price);
+    if (filter == "brand") {
+      cb = (ele) => arr.includes(ele.brand);
     } else {
       cb = (ele) => arr.includes(Math.floor(ele.rating));
     }
@@ -65,60 +70,13 @@ const ProductList = () => {
     setSortBy(arr[0]);
     setOrderBy(arr[1]);
 
-    const res = mergeSort(products);
+    const res = mergeSort(products, sortBy);
 
     // we have asc and desc
     setFilteredProducts(res);
   };
 
-  // Merge Sort function
-  function mergeSort(arr) {
-    // Base case: if array has 1 or 0 elements, it is already sorted
-    if (arr.length <= 1) return arr;
 
-    // 1. Divide array into two halves
-    const mid = Math.floor(arr.length / 2);
-    const left = arr.slice(0, mid);
-    const right = arr.slice(mid);
-
-    // 2. Conquer: Recursively sort both halves
-    const sortedLeft = mergeSort(left);
-    const sortedRight = mergeSort(right);
-
-    // 3. Combine: Merge sorted halves
-    return merge(sortedLeft, sortedRight);
-  }
-
-  // Merge two sorted arrays
-  function merge(left, right) {
-    const result = [];
-    let i = 0; // index for left
-    let j = 0; // index for right
-
-    // Compare elements from both arrays and push the smallest first
-    while (i < left.length && j < right.length) {
-      if (left[i][sortBy] <= right[j][sortBy]) {
-        result.push(left[i]);
-        i++;
-      } else {
-        result.push(right[j]);
-        j++;
-      }
-    }
-
-    // Push any remaining elements
-    while (i < left.length) {
-      result.push(left[i]);
-      i++;
-    }
-
-    while (j < right.length) {
-      result.push(right[j]);
-      j++;
-    }
-
-    return result;
-  }
 
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>{errorMsg}</h1>;
