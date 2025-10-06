@@ -2,14 +2,21 @@ import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/appContext";
-// import useDebounce from "../../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 
 function Header({ onSearch, products }) {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const { theme, setTheme } = useContext(AppContext);
-  // const debounceValue = useDebounce(search, 600);
+  const debounceValue = useDebounce(search, 600);
+
+  // here is the problem, i am getting maximum render limit reached err.
+  useEffect(() => {
+    if (debounceValue) {
+      onSearch?.(debounceValue);
+    }
+  }, [debounceValue, onSearch]);
 
   useEffect(() => {
     if (search.trim() === "") {

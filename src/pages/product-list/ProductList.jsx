@@ -35,7 +35,6 @@ const ProductList = () => {
     const tempProducts = products;
 
     const result = tempProducts.filter(cb);
-    console.log(result);
     setFilteredProducts(result);
   }
   // on search functionality
@@ -46,8 +45,6 @@ const ProductList = () => {
   // generic filter function
   function onFilterChange(data) {
     const { filter, result: arr } = data;
-
-    console.log("filter", filter);
 
     if (!arr || arr.length === 0) {
       setFilteredProducts(products);
@@ -76,14 +73,12 @@ const ProductList = () => {
     setFilteredProducts(res);
   };
 
-
-
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>{errorMsg}</h1>;
 
   return (
     <>
-      <Header onSearch={onSearchHandler} />
+      <Header onSearch={onSearchHandler} products={products} />
       <div className="content">
         <Filters
           brands={brands}
