@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header onSearch={searchHandler} />
+      <Header onSearch={searchHandler}  products={products} />
       <h4> Top Deals </h4>
       <div className="product-list">
         {filteredProducts.map((ele) => (

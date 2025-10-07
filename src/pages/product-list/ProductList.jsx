@@ -78,7 +78,7 @@ const ProductList = () => {
 
   return (
     <>
-      <Header onSearch={onSearchHandler} products={products} />
+      <Header onSearch={(e) => onSearchHandler(e)} products={products} />
       <div className="content">
         <Filters
           brands={brands}

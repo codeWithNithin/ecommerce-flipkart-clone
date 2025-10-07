@@ -9,7 +9,7 @@ function Header({ onSearch, products }) {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const { theme, setTheme } = useContext(AppContext);
-  const debounceValue = useDebounce(search, 600);
+  const debounceValue = useDebounce(search, 2000);
 
   // here is the problem, i am getting maximum render limit reached err.
   useEffect(() => {
@@ -27,6 +27,7 @@ function Header({ onSearch, products }) {
     const filtered = products.filter((ele) =>
       ele.title.toLowerCase().includes(search.toLowerCase())
     );
+    
     setSuggestions(filtered);
   }, [search, products]);
 
@@ -40,7 +41,6 @@ function Header({ onSearch, products }) {
 
   const onSearchChange = (e) => {
     setSearch(e.target.value);
-    onSearch?.(e.target.value);
   };
 
   const onThemeChange = (e) => {
@@ -64,7 +64,14 @@ function Header({ onSearch, products }) {
         {suggestions.length > 0 && (
           <div className="suggestions">
             {suggestions.map((ele) => (
-              <div className="suggestion" key={ele.id}>
+              <div
+                className="suggestion"
+                key={ele.id}
+                onClick={() => {
+                  setSearch(ele.title);
+                  onSearch?.(ele.title);
+                }}
+              >
                 {ele.title}
               </div>
             ))}

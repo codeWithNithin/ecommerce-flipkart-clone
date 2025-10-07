@@ -44,6 +44,7 @@ const useProducts = () => {
             img: value.products[0].thumbnail,
             id: value.products[0].id,
             price: value.products[0].price,
+            title: key,
           };
         });
 
