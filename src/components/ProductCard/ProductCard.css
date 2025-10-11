@@ -12,7 +12,7 @@
 }
 
 .card {
-    background: var(--card-bg);
+    /* background: var(--card-bg); */
     border-radius: 12px;
     padding: 14px;
     box-shadow: var(--shadow);
@@ -61,7 +61,6 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #f0fdf4;
     padding: 6px;
     border-radius: 8px;
     font-size: 13px

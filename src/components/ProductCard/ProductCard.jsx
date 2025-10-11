@@ -7,14 +7,7 @@ const ProductCard = ({ title, price, img, rating }) => {
 
   useEffect(() => {
     const cardRef = document.getElementById("card");
-
-    if (theme === "light") {
-      cardRef.style.background = "#fff";
-      cardRef.style.color = "#000";
-    } else {
-      cardRef.style.background = "#000";
-      cardRef.style.color = "#fff";
-    }
+    cardRef.classList.add(theme);
   }, [theme]);
 
   return (

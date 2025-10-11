@@ -23,6 +23,17 @@ body.dark {
 }
 
 
+#card.light {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+#card.dark {
+    background-color: #000 !important;
+    color: #fff !important; 
+}
+
+
 
 /* Results header */
 .results-header {

@@ -39,6 +39,10 @@ const ProductList = () => {
   }
   // on search functionality
   function onSearchHandler(text) {
+    if (text.trim() === "") {
+      setFilteredProducts(products);
+      return;
+    }
     applyFilter((ele) => ele.title.toLowerCase().includes(text.toLowerCase()));
   }
 
