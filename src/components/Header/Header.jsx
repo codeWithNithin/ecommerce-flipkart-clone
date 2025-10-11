@@ -3,6 +3,7 @@ import "./Header.css";
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/appContext";
 import useDebounce from "../../hooks/useDebounce";
+import AutoSuggestions from "../AutoSuggestion/AutoSuggestions";
 
 function Header({ onSearch, products }) {
   const navigate = useNavigate();
@@ -13,10 +14,9 @@ function Header({ onSearch, products }) {
 
   // here is the problem, i am getting maximum render limit reached err.
   useEffect(() => {
-    if (debounceValue) {
       onSearch?.(debounceValue);
-    }
-  }, [debounceValue, onSearch]);
+    
+  }, [debounceValue]);
 
   useEffect(() => {
     if (search.trim() === "") {
@@ -27,7 +27,7 @@ function Header({ onSearch, products }) {
     const filtered = products.filter((ele) =>
       ele.title.toLowerCase().includes(search.toLowerCase())
     );
-    
+
     setSuggestions(filtered);
   }, [search, products]);
 
@@ -62,20 +62,11 @@ function Header({ onSearch, products }) {
           value={search}
         />
         {suggestions.length > 0 && (
-          <div className="suggestions">
-            {suggestions.map((ele) => (
-              <div
-                className="suggestion"
-                key={ele.id}
-                onClick={() => {
-                  setSearch(ele.title);
-                  onSearch?.(ele.title);
-                }}
-              >
-                {ele.title}
-              </div>
-            ))}
-          </div>
+          <AutoSuggestions
+            suggestions={suggestions}
+            setSearch={setSearch}
+            onSearch={onSearch}
+          />
         )}
       </div>
       <div>
