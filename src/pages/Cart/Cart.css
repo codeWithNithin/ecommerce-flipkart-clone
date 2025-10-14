@@ -1,0 +1,149 @@
+.cart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  background: #f1f3f6;
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.cart-items {
+  flex: 2;
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.cart-title {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.item-details {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.item-title {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.item-price {
+  font-weight: bold;
+  color: #212121;
+}
+
+.qty-controls {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-controls button {
+  border: none;
+  background: #ddd;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+.qty-controls button:hover {
+  background: #ccc;
+}
+
+.item-total {
+  font-weight: bold;
+  color: #000;
+}
+
+/* Price Details Box */
+.price-details {
+  flex: 1;
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+.price-details h2 {
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #333;
+}
+
+.price-row.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.discount {
+  color: green;
+}
+
+.free {
+  color: green;
+}
+
+.place-order-btn {
+  width: 100%;
+  background: #fb641b;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.place-order-btn:hover {
+  background: #f45b10;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-container {
+    flex-direction: column;
+  }
+
+  .price-details {
+    width: 100%;
+  }
+}
