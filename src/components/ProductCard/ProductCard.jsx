@@ -7,6 +7,7 @@ const ProductCard = ({ title, price, img, rating }) => {
 
   useEffect(() => {
     const cardRef = document.getElementById("card");
+    cardRef.classList.remove("light", "dark");
     cardRef.classList.add(theme);
   }, [theme]);
 
