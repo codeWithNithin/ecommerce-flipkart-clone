@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "../../context/appContext";
 import useDebounce from "../../hooks/useDebounce";
 import AutoSuggestions from "../AutoSuggestion/AutoSuggestions";
+import { useSelector } from "react-redux";
 
 function Header({ onSearch, products }) {
   const navigate = useNavigate();
@@ -12,10 +13,11 @@ function Header({ onSearch, products }) {
   const { theme, setTheme } = useContext(AppContext);
   const debounceValue = useDebounce(search, 2000);
 
+  const cartItems = useSelector((state) => state.cart.items);
+
   // here is the problem, i am getting maximum render limit reached err.
   useEffect(() => {
-      onSearch?.(debounceValue);
-    
+    onSearch?.(debounceValue);
   }, [debounceValue]);
 
   useEffect(() => {
@@ -77,7 +79,14 @@ function Header({ onSearch, products }) {
         </select>
       </div>
       <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <button className="page-btn">Cart</button>
+        <button
+          className="page-btn"
+          onClick={() => {
+            navigate("/cart");
+          }}
+        >
+          Cart ({cartItems.length})
+        </button>
         <button className="page-btn">Login</button>
       </div>
     </header>
