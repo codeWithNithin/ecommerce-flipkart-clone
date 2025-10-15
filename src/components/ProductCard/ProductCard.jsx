@@ -1,6 +1,10 @@
 import { useContext, useEffect } from "react";
 import "./ProductCard.css";
 import AppContext from "../../context/appContext";
+import Button from "../Button/Button";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../utils/cartSlice";
 
 const ProductCard = ({ title, price, img, rating }) => {
   const { theme } = useContext(AppContext);
@@ -21,6 +25,37 @@ const ProductCard = ({ title, price, img, rating }) => {
       <div className="price">₹ {price}</div>
     </div>
   );
+};
+
+export const WithRedirectiobBtns = (ProductCard) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    console.log('add to cart click')
+    //  1. dispatch an action
+    dispatch(addItem());
+  };
+
+  return (props) => {
+    return (
+      <div>
+        <ProductCard {...props} />
+        <Button
+          name="Add to cart"
+          styleType="primary"
+          clickHandler={addToCartHandler}
+        />
+        <Button
+          name="home"
+          styleType="secondary"
+          clickHandler={() => {
+            navigate("/");
+          }}
+        />
+      </div>
+    );
+  };
 };
 
 export default ProductCard;

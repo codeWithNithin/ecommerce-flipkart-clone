@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard, { WithRedirectiobBtns } from "../../components/ProductCard/ProductCard";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./ProductList.css";
@@ -11,6 +11,8 @@ const ProductList = () => {
   const { category } = useParams();
   const [sortBy, setSortBy] = useState("price");
   const [orderBy, setOrderBy] = useState("asc");
+
+  const ProductWithRedirectionBtns = WithRedirectiobBtns(ProductCard);
 
   const brands = [];
 
@@ -114,7 +116,7 @@ const ProductList = () => {
           <h4> Product List </h4>
           <div className="product-list">
             {filteredProducts.map((product) => (
-              <ProductCard
+              <ProductWithRedirectionBtns
                 key={product.id}
                 title={product.title}
                 price={product.price}

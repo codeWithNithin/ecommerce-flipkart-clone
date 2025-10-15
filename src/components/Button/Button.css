@@ -1,0 +1,21 @@
+.primary-btn {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.primary-btn:hover {
+    background-color: darkorange;
+}
+
+.secondary-btn {
+    background-color: orangered;
+    color: white;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
