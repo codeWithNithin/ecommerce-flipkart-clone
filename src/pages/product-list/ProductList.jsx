@@ -1,5 +1,7 @@
 import { useState } from "react";
-import ProductCard, { WithRedirectiobBtns } from "../../components/ProductCard/ProductCard";
+import ProductCard, {
+  WithRedirectiobBtns,
+} from "../../components/ProductCard/ProductCard";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./ProductList.css";
@@ -122,6 +124,7 @@ const ProductList = () => {
                 price={product.price}
                 img={product.thumbnail}
                 rating={product.rating}
+                id={product.id}
               />
             ))}
           </div>

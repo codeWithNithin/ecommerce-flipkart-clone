@@ -31,10 +31,12 @@ export const WithRedirectiobBtns = (ProductCard) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const addToCartHandler = () => {
-    console.log('add to cart click')
+  const addToCartHandler = ({ id, title, price, img, rating }) => {
     //  1. dispatch an action
-    dispatch(addItem());
+    dispatch(addItem({ id, title, price, img, rating}));
+
+    // 2. navigate to cart
+    navigate("/cart");
   };
 
   return (props) => {
@@ -44,7 +46,9 @@ export const WithRedirectiobBtns = (ProductCard) => {
         <Button
           name="Add to cart"
           styleType="primary"
-          clickHandler={addToCartHandler}
+          clickHandler={() => {
+            addToCartHandler(props);
+          }}
         />
         <Button
           name="home"

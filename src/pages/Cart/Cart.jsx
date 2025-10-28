@@ -1,22 +1,11 @@
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header/Header";
 import "./Cart.css";
+import { updateQty } from "../../utils/cartSlice";
 const Cart = () => {
-  const cartItems = [
-    {
-      id: 1,
-      title: "Product 1",
-      price: 100,
-      image: "https://via.placeholder.com/150",
-      qty: 2,
-    },
-    {
-      id: 2,
-      title: "Product 2",
-      price: 200,
-      image: "https://via.placeholder.com/150",
-      qty: 1,
-    },
-  ];
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
+
 
   return (
     <div>
@@ -24,19 +13,35 @@ const Cart = () => {
       <div className="cart-container">
         {/* Left: Cart Items */}
         <div className="cart-items">
-          <h2 className="cart-title">My Cart (0)</h2>
+          <h2 className="cart-title">My Cart ({cartItems.length})</h2>
 
           {cartItems.map((item) => (
             <div key={item.id} className="cart-item">
               <div className="item-details">
-                <img src={item.image} alt={item.title} className="item-image" />
+                <img src={item.img} alt={item.title} className="item-image" />
                 <div>
                   <h3 className="item-title">{item.title}</h3>
                   <p className="item-price">₹{item.price.toLocaleString()}</p>
                   <div className="qty-controls">
-                    <button onClick={() => {}}>-</button>
+                    <button
+                      onClick={() => {
+                        if (item.qty > 1) {
+                          dispatch(
+                            updateQty({ id: item.id, qty: item.qty - 1 })
+                          );
+                        }
+                      }}
+                    >
+                      -
+                    </button>
                     <span>{item.qty}</span>
-                    <button onClick={() => {}}>+</button>
+                    <button
+                      onClick={() => {
+                        dispatch(updateQty({ id: item.id, qty: item.qty + 1 }));
+                      }}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
@@ -65,7 +70,12 @@ const Cart = () => {
           <hr />
           <div className="price-row total">
             <span>Total Amount</span>
-            <span>₹{(300).toLocaleString()}</span>
+            <span>
+              ₹
+              {cartItems
+                .reduce((acc, item) => acc + item.price * item.qty, 0)
+                .toLocaleString()}
+            </span>
           </div>
           <button className="place-order-btn">PLACE ORDER</button>
         </div>

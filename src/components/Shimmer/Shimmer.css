@@ -1,0 +1,32 @@
+* Layout for the grid of skeleton cards */ 
+.shimmer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    align-items: start;
+}
+
+/* Basic card look */
+.shimmer-card {
+    position: relative;
+    overflow: hidden;
+    height: 140px;
+    /* adjust card height as needed */
+    border-radius: 12px;
+    background: linear-gradient(180deg, #e9e9ea 0%, #e2e2e4 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transform: translateZ(0);
+    /* create new stacking context for smoother animation */
+}
+
+/* .shimmer-container {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    padding: 12px;
+}
+
+.shimmer-card {
+    height: 120px;
+    border-radius: 10px;
+} */
