@@ -9,13 +9,13 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAGDgyne7fMW_OBLt7r_tUPy5BRn9paWaw",
-  authDomain: "flipkart-ecomm.firebaseapp.com",
-  projectId: "flipkart-ecomm",
-  storageBucket: "flipkart-ecomm.firebasestorage.app",
-  messagingSenderId: "730892222107",
-  appId: "1:730892222107:web:a9ad6be92d1c13f01b103e",
-  measurementId: "G-K7EVRNSQM6",
+  apiKey: import.meta.env.VITE_FB_API_KEY,
+  authDomain: import.meta.env.VITE_FB_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FB_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FB_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FB_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FB_APP_ID,
+  measurementId: import.meta.env.VITE_FB_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
